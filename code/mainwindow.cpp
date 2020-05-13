@@ -69,7 +69,7 @@ void MainWindow::select_ele(int floor){
     }
     std::sort(ELE_RATING.begin(), ELE_RATING.end(),
               [](std::pair<int, int> &a, std::pair<int, int> &b){
-                    return a.second < b.second;
+                    return a.second > b.second;
     });
     for(auto i:ELE_RATING){
         if(send_request(_ELEVATOR[i.first],floor)){
@@ -89,7 +89,7 @@ void MainWindow::select_ele(int floor){
 int MainWindow::eleRating(elevator *ele, int floor){
     int ans=0;
     if(ele->status==0&&ele->destination.isEmpty()){
-        ans+=10000;
+        ans+=10000+10*(20-(ele->status*abs(ele->current_floor-floor)));
     }
     if(!ele->destination.isEmpty()){
         ans+=10*(20-(ele->status*abs(ele->current_floor-floor)));
